@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+DirectXGame.vcxproj.user
+DirectXGame.vcxproj.filters
+DirectXGame.vcxproj
+SampleDirectXProject.sln
