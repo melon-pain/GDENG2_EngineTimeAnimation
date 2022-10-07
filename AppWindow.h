@@ -36,6 +36,7 @@ private:
 	float m_time = 0.0f;
 	unsigned long m_old_time = 0;
 	float m_delta_time = 0;
+	float m_speed_mod = 0.0f;
 	float m_angle = 0;
 };
 

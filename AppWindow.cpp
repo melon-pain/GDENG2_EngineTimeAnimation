@@ -57,13 +57,22 @@ void AppWindow::onCreate()
 	RECT rc = this->getClientWindowRect();
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
-	vertex list[] = 
+	//vertex list[] = 
+	//{
+	//	//X - Y - Z
+	//	{-0.6f,-0.75f,0.0f,    -0.32f,-0.11f,0.0f,  0.15f,0,0,  0,1,0 }, // POS1
+	//	{-0.8f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,0.85f,0,  1,1,0 }, // POS2
+	//	{ 0.3f,-0.3f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
+	//	{ 0.2f,0.3f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
+	//};
+
+	vertex list[] =
 	{
 		//X - Y - Z
-		{-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,0.5f,0 }, // POS1
-		{-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  1,1,0 }, // POS2
-		{ 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
-		{ 0.5f,0.5f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
+		{-0.85f,-0.9f,0.0f,    -0.32f,-0.11f,0.0f,  0.15f,0,0,  0,1,0 }, // POS1
+		{-0.95f,0.4f,0.0f,     -0.11f,0.78f,0.0f,    1,0.85f,0,  1,1,0 }, // POS2
+		{ 1.0f,-0.35f,0.0f,     0.0f,-0.73f,0.0f,	0,0,1,  1,0,0 },// POS2
+		{-0.6f,-0.75f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
 	};
 
 	m_vb=GraphicsEngine::get()->createVertexBuffer();
@@ -77,7 +86,6 @@ void AppWindow::onCreate()
 	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
 
 	GraphicsEngine::get()->releaseCompiledShader();
-
 
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
@@ -99,6 +107,9 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	m_delta_time = static_cast<float>(EngineTime::getDeltaTime());
+
+	m_speed_mod += m_delta_time;
+	m_time += m_delta_time * (sinf(m_speed_mod) * 2.0f + 3.0f);
 
 	m_time += m_delta_time;
 	constant cc;
